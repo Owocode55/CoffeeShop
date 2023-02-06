@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.13" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoffeeShop.CommonUtilities\CoffeeShop.CommonUtilities.csproj" />
+    <ProjectReference Include="..\CoffeeShop.Data\CoffeeShop.Data.csproj" />
+    <ProjectReference Include="..\CoffeeShop.Repository\CoffeeShop.Repository.csproj" />
+    <ProjectReference Include="..\CoffeeShop.Service\CoffeeShop.Service.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,228 @@
+﻿@page
+@model CoffeeShop.Pages.Menu.IndexModel
+@{
+
+}
+
+<form method="post">
+    <div class="text-center">
+        <h3>Menu Items</h3>
+        <table>
+            <thead>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Price(N)</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            </thead>
+            <tbody>
+           @foreach (var item in Model.DisplayData.MenuList)
+            {
+                <tr>
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@Model.DisplayData.CategoryList.FirstOrDefault(m => m.Code == @item.CategoryCode).Name</td>
+                <td><input maxlength="4" size="4" min="0" type="number" OnChange="AddOrder('@item.Name' , '@item.ID','@item.Price' , this.value)" /></td>
+                </tr>
+             }  
+
+        </tbody>
+      </table>
+ 
+    </div>
+    <div style="display:flex;flex-direction: column; Align-content:center; justify-content:center; width:auto" id="checkOutSectionDiv">
+
+        <div>Order Summary</div>
+        <div id="CheckoutSummaryDetails"></div>
+        <div>
+            <span>Total Price    </span>N<span id="TotalPriceSpan"></span>
+        </div>
+        <div>
+            <input value="CheckOut" onclick="ShowCustomerDetailsModal()" class="btn-success" type="button"/>
+        </div>
+    </div>
+</form>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="cutomerdetails-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Customer Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                   <div class="form-group">
+                    <label for="exampleName">Name</label>
+                    <input class="form-control" id="btnName" name="Name" placeholder="Name">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="btnEmail" name="Email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Mobile</label>
+                    <input class="form-control" id="btnMobile" name ="Mobile" placeholder="Mobile">
+                  </div>
+
+                   <div class="form-group">
+                    <label for="exampleName">Address</label>
+                    <input  class="form-control" id="btnAddress" name="Address" placeholder="Address">
+                  </div>
+                  
+                  <button type="button" onclick="SaveOrderDetails()" class="btn btn-primary">Submit</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <script type="text/javascript">
+      let productArray = [];
+
+      (function() {
+          document.addEventListener("DOMContentLoaded", function() {
+            var checkOutSectionDiv = document.getElementById("checkOutSectionDiv");
+            checkOutSectionDiv.style.display = "none";
+          });
+        })();
+
+      function AddOrder(Name , ID , Price , Quantity){
+        let productExists = false;
+
+        for (let i = 0; i < productArray.length; i++) {
+            if (productArray[i].ProductID === ID) {
+                 if(Quantity <= 0){
+                      productArray.splice(i, 1);
+                 }else{
+                     productArray[i].Quantity = Quantity;
+                     productArray[i].TotalPrice = parseFloat(Price) * parseInt(Quantity);
+                 }
+                productExists = true;
+                break;
+             }   
+        }
+
+        if (!productExists) {
+            if(Quantity > 0){
+                let item = {
+                         Name : Name,
+                         ProductID: ID,
+                         Quantity: Quantity,
+                         TotalPrice: parseFloat(Price) * parseInt(Quantity)
+                      };
+                productArray.push(item);
+            }
+           
+           }
+             
+           TotalPriceCalculator();
+           console.log(productArray)
+        }
+
+        function TotalPriceCalculator(){
+            let TotalPrice = 0;
+            let checkOutSummary = "<table><thead><th>Name</th><th>Quantity</th><th>Price</th></thead><tbody>";
+
+            if(productArray.length > 0){
+                $('#checkOutSectionDiv').show();
+            }
+            else{
+                $('#checkOutSectionDiv').hide();
+            }
+
+             for (let i = 0; i < productArray.length; i++) {
+                 checkOutSummary = checkOutSummary + "<tr><td>"+ productArray[i].Name + "</td><td>" + productArray[i].Quantity +"</td><td>"+ productArray[i].TotalPrice +"</td></tr>"
+                 TotalPrice = TotalPrice + productArray[i].TotalPrice;
+             }
+             checkOutSummary = checkOutSummary + "</tbody></table>"
+            let span = document.getElementById("TotalPriceSpan");
+            let spanSummary = document.getElementById("CheckoutSummaryDetails");
+            span.innerHTML = TotalPrice;
+            spanSummary.innerHTML = checkOutSummary;
+        }
+
+        function ShowCustomerDetailsModal(){
+            if(productArray.length === 0){
+                alert("No order has be placed yet")
+            }else{
+                $("#cutomerdetails-modal").modal('show');
+            }
+        }
+
+        function SaveOrderDetails(){
+            let pageUrl = '@Url.Page("/menu")';
+            console.log(pageUrl , "PageURL");
+            let name =  $('#btnName').val();
+            let address =  $('#btnAddress').val();
+            let mobile =  $('#btnMobile').val();
+            let email =  $('#btnEmail').val();
+
+            if(name === ""){
+                alert("Kindly provide customer name")
+                return;
+            }else if(address === ""){
+                alert("Kindly provide customer address")
+                return;
+            }else if(mobile === ""){
+                alert("Kindly provide customer Phone number")
+                return
+            }else if(email === ""){
+                alert("Kindly provide customer email address")
+                return
+            }
+
+            let data= {
+                         Name : name,
+                         Email: email,
+                         Address: address,
+                         Mobile: mobile,
+                         OrderDetails : productArray
+                      };
+
+                      $.ajax({
+                        type: "Post",
+                        url: pageUrl,
+                        data: { data: data },
+                        headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                        success: function (result) {
+                            console.log(result);
+                            if(result.isSuccessful){
+                                productArray = [];
+                                $('#btnName').val('');
+                                $('#btnAddress').val('');
+                                $('#btnMobile').val('');
+                                $('#btnEmail').val('')
+                                $("#cutomerdetails-modal").modal('hide');
+                                
+                                var textBoxes = document.getElementsByTagName("input");
+                                  for (var i = 0; i < textBoxes.length; i++) {
+                                        if (textBoxes[i].type === "number") {
+                                         textBoxes[i].value = "";
+                                        }
+                                  }
+                                  TotalPriceCalculator();
+                                alert(result.responseMessage)
+                            }else{
+                                alert(result.responseMessage)
+                            }
+                            
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        alert("error processing order. Kindly try again later")
+                        }
+                    });
+
+        }
+
+
+    </script>

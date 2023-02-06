@@ -1,0 +1,253 @@
+USE [CoffeeShop]
+GO
+/****** Object:  UserDefinedTableType [dbo].[CustomerOrderDetailsType]    Script Date: 2/6/2023 3:37:22 AM ******/
+CREATE TYPE [dbo].[CustomerOrderDetailsType] AS TABLE(
+	[MenuID] [int] NULL,
+	[ItemName] [varchar](300) NULL,
+	[Quantity] [int] NULL,
+	[UnitPrice] [decimal](18, 2) NULL,
+	[TotalProce] [decimal](18, 2) NULL
+)
+GO
+/****** Object:  UserDefinedTableType [dbo].[OrderDetailsType]    Script Date: 2/6/2023 3:37:22 AM ******/
+CREATE TYPE [dbo].[OrderDetailsType] AS TABLE(
+	[MenuID] [int] NULL,
+	[ItemName] [varchar](300) NULL,
+	[Quantity] [int] NULL,
+	[UnitPrice] [decimal](18, 2) NULL,
+	[TotalPrice] [decimal](18, 2) NULL
+)
+GO
+/****** Object:  Table [dbo].[CustomerOrderDetails]    Script Date: 2/6/2023 3:37:22 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CustomerOrderDetails](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](200) NULL,
+	[Mobile] [varchar](50) NULL,
+	[Address] [varchar](500) NULL,
+	[OrderAmount] [decimal](18, 2) NULL,
+	[OrderDate] [datetime] NULL,
+	[IsPaymentOnDelivery] [bit] NULL,
+	[DeliveryAmount] [decimal](18, 2) NULL,
+	[TotalAmount] [decimal](18, 2) NULL,
+	[OrderNumber] [varchar](50) NULL,
+ CONSTRAINT [PK_CustomerOrderDetails] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CustomerOrderDetailsItem]    Script Date: 2/6/2023 3:37:22 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CustomerOrderDetailsItem](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[CustomerOrderDetailsID] [bigint] NOT NULL,
+	[MenuID] [int] NULL,
+	[OrderNumber] [varchar](50) NULL,
+	[ItemName] [varchar](500) NULL,
+	[Quantity] [int] NULL,
+	[UnitPrice] [decimal](18, 2) NULL,
+	[TotalPrice] [decimal](18, 2) NULL,
+ CONSTRAINT [PK_CustomerOrderDetailItems] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Menu]    Script Date: 2/6/2023 3:37:22 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Menu](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](500) NULL,
+	[Description] [varchar](max) NULL,
+	[Price] [decimal](18, 2) NULL,
+	[CategoryCode] [varchar](3) NULL,
+ CONSTRAINT [PK_Menu] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[MenuCategory]    Script Date: 2/6/2023 3:37:22 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[MenuCategory](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](500) NULL,
+	[Code] [varchar](3) NULL,
+ CONSTRAINT [PK_MenuCategory] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[CustomerOrderDetails] ON 
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (2, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(14000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T15:15:05.710' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(16000.00 AS Decimal(18, 2)), N'230205151505526321780528')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (3, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(14000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T15:15:26.947' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(16000.00 AS Decimal(18, 2)), N'230205151526058079576769')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (4, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(21000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T15:21:58.910' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(23000.00 AS Decimal(18, 2)), N'230205152157687634391197')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (5, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(21000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T15:28:58.207' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(23000.00 AS Decimal(18, 2)), N'230205152858628253498060')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (6, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(4700.00 AS Decimal(18, 2)), CAST(N'2023-02-05T15:30:37.663' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(6700.00 AS Decimal(18, 2)), N'230205153037569658823599')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (7, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(21000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T15:37:28.723' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(23000.00 AS Decimal(18, 2)), N'230205153728521830643225')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (8, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(28000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T16:17:13.543' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(30000.00 AS Decimal(18, 2)), N'230205161713042218891777')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (9, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(21000.00 AS Decimal(18, 2)), CAST(N'2023-02-05T16:24:21.077' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(23000.00 AS Decimal(18, 2)), N'230205162421887330016033')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (10, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(17500.00 AS Decimal(18, 2)), CAST(N'2023-02-06T02:25:10.360' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(19500.00 AS Decimal(18, 2)), N'230206022510966729433950')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (11, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(16600.00 AS Decimal(18, 2)), CAST(N'2023-02-06T03:29:02.397' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(18600.00 AS Decimal(18, 2)), N'230206032902739513100780')
+GO
+INSERT [dbo].[CustomerOrderDetails] ([ID], [Name], [Mobile], [Address], [OrderAmount], [OrderDate], [IsPaymentOnDelivery], [DeliveryAmount], [TotalAmount], [OrderNumber]) VALUES (12, N'Abiola Olatunji', N'08166860033', N'Mo 6 Anuoluwapo', CAST(27000.00 AS Decimal(18, 2)), CAST(N'2023-02-06T03:34:22.827' AS DateTime), 1, CAST(2000.00 AS Decimal(18, 2)), CAST(29000.00 AS Decimal(18, 2)), N'230206033422770085162086')
+GO
+SET IDENTITY_INSERT [dbo].[CustomerOrderDetails] OFF
+GO
+SET IDENTITY_INSERT [dbo].[CustomerOrderDetailsItem] ON 
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (1, 2, 1, N'230205151505526321780528', N'Parfait (Large)', 4, CAST(3500.00 AS Decimal(18, 2)), CAST(14000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (2, 3, 1, N'230205151526058079576769', N'Parfait (Large)', 4, CAST(3500.00 AS Decimal(18, 2)), CAST(14000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (3, 4, 1, N'230205152157687634391197', N'Parfait (Large)', 6, CAST(3500.00 AS Decimal(18, 2)), CAST(21000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (4, 5, 1, N'230205152858628253498060', N'Parfait (Large)', 6, CAST(3500.00 AS Decimal(18, 2)), CAST(21000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (5, 6, 1, N'230205153037569658823599', N'Parfait (Large)', 1, CAST(3500.00 AS Decimal(18, 2)), CAST(3500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (6, 6, 12, N'230205153037569658823599', N'Cappuccino', 1, CAST(1200.00 AS Decimal(18, 2)), CAST(1200.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (7, 7, 1, N'230205153728521830643225', N'Parfait (Large)', 6, CAST(3500.00 AS Decimal(18, 2)), CAST(21000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (8, 8, 1, N'230205161713042218891777', N'Parfait (Large)', 8, CAST(3500.00 AS Decimal(18, 2)), CAST(28000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (9, 9, 1, N'230205162421887330016033', N'Parfait (Large)', 6, CAST(3500.00 AS Decimal(18, 2)), CAST(21000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (10, 10, 1, N'230206022510966729433950', N'Parfait (Large)', 5, CAST(3500.00 AS Decimal(18, 2)), CAST(17500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (11, 11, 1, N'230206032902739513100780', N'Parfait (Large)', 3, CAST(3500.00 AS Decimal(18, 2)), CAST(10500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (12, 11, 2, N'230206032902739513100780', N'Parfait (Small)', 2, CAST(1300.00 AS Decimal(18, 2)), CAST(2600.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (13, 11, 5, N'230206032902739513100780', N'Magarita', 1, CAST(3000.00 AS Decimal(18, 2)), CAST(3000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (14, 11, 6, N'230206032902739513100780', N'Cocacola ', 1, CAST(500.00 AS Decimal(18, 2)), CAST(500.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (15, 12, 1, N'230206033422770085162086', N'Parfait (Large)', 2, CAST(3500.00 AS Decimal(18, 2)), CAST(7000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (16, 12, 2, N'230206033422770085162086', N'Parfait (Small)', 2, CAST(1300.00 AS Decimal(18, 2)), CAST(2600.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (17, 12, 3, N'230206033422770085162086', N'Long Island Cocktails', 2, CAST(3000.00 AS Decimal(18, 2)), CAST(6000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (18, 12, 4, N'230206033422770085162086', N'Sex on the Beatch', 1, CAST(3000.00 AS Decimal(18, 2)), CAST(3000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (19, 12, 9, N'230206033422770085162086', N'Mega Breakfast', 1, CAST(5000.00 AS Decimal(18, 2)), CAST(5000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (20, 12, 10, N'230206033422770085162086', N'Cafe Late', 1, CAST(1000.00 AS Decimal(18, 2)), CAST(1000.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (21, 12, 11, N'230206033422770085162086', N'Hot Chocolate', 1, CAST(1200.00 AS Decimal(18, 2)), CAST(1200.00 AS Decimal(18, 2)))
+GO
+INSERT [dbo].[CustomerOrderDetailsItem] ([ID], [CustomerOrderDetailsID], [MenuID], [OrderNumber], [ItemName], [Quantity], [UnitPrice], [TotalPrice]) VALUES (22, 12, 12, N'230206033422770085162086', N'Cappuccino', 1, CAST(1200.00 AS Decimal(18, 2)), CAST(1200.00 AS Decimal(18, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[CustomerOrderDetailsItem] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Menu] ON 
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (1, N'Parfait (Large)', N'Large Cup', CAST(3500.00 AS Decimal(18, 2)), N'002')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (2, N'Parfait (Small)', N'Small Cup', CAST(1300.00 AS Decimal(18, 2)), N'002')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (3, N'Long Island Cocktails', N'Cocktail mixture', CAST(3000.00 AS Decimal(18, 2)), N'002')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (4, N'Sex on the Beatch', N'Cocktails', CAST(3000.00 AS Decimal(18, 2)), N'002')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (5, N'Magarita', N'Cocktail', CAST(3000.00 AS Decimal(18, 2)), N'002')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (6, N'Cocacola ', N'Can Drink', CAST(500.00 AS Decimal(18, 2)), N'004')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (7, N'Fanta', N'Can Drink ', CAST(500.00 AS Decimal(18, 2)), N'004')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (8, N'Grilled Chiken and Chips', N'Chicken with chips with sauce', CAST(8000.00 AS Decimal(18, 2)), N'003')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (9, N'Mega Breakfast', N'Rice, chicken  and salade', CAST(5000.00 AS Decimal(18, 2)), N'003')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (10, N'Cafe Late', N'Hot Coffee', CAST(1000.00 AS Decimal(18, 2)), N'001')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (11, N'Hot Chocolate', N'Hot Coffee', CAST(1200.00 AS Decimal(18, 2)), N'001')
+GO
+INSERT [dbo].[Menu] ([ID], [Name], [Description], [Price], [CategoryCode]) VALUES (12, N'Cappuccino', N'Hot Coffee', CAST(1200.00 AS Decimal(18, 2)), N'001')
+GO
+SET IDENTITY_INSERT [dbo].[Menu] OFF
+GO
+SET IDENTITY_INSERT [dbo].[MenuCategory] ON 
+GO
+INSERT [dbo].[MenuCategory] ([ID], [Name], [Code]) VALUES (1, N'Hot Drinks', N'001')
+GO
+INSERT [dbo].[MenuCategory] ([ID], [Name], [Code]) VALUES (2, N'Cold Drinks', N'002')
+GO
+INSERT [dbo].[MenuCategory] ([ID], [Name], [Code]) VALUES (3, N'Food', N'003')
+GO
+INSERT [dbo].[MenuCategory] ([ID], [Name], [Code]) VALUES (4, N'Can Cold Drinks', N'004')
+GO
+SET IDENTITY_INSERT [dbo].[MenuCategory] OFF
+GO
+/****** Object:  StoredProcedure [dbo].[sp_CreateOrderRequest]    Script Date: 2/6/2023 3:37:22 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+Create procedure [dbo].[sp_CreateOrderRequest]
+   @OrderDetails OrderDetailsType readonly,
+   @TotalAmount DECIMAL(18,2),
+   @OrderAmount DECIMAL(18,2),
+   @DeliveryFee DECIMAL(18,2),
+   @Name VARCHAR(200),
+   @Email VARCHAR(500),
+   @Address VARCHAR(500),
+   @Mobile VARCHAR(15),
+   @OrderNumber VARCHAR(30),
+   @DateCreated Datetime,
+   @Resp BIGINT = NULL OUTPUT
+   
+AS
+BEGIN
+SET NOCOUNT ON;
+DECLARE @CustomerOrderID BIGINT
+DECLARE @RecordID BIGINT
+
+
+Select @CustomerOrderID = ID from CustomerOrderDetails where OrderNumber = @OrderNumber
+
+IF(@CustomerOrderID IS Not Null and @CustomerOrderID > 0)
+  BEGIN
+      SET @RESP = -1 ---- Order Number exist
+  return @RESP
+  END
+
+
+Insert into CustomerOrderDetails ([Name] ,Mobile , [Address] , OrderAmount , OrderDate , IsPaymentOnDelivery , DeliveryAmount , TotalAmount , OrderNumber) 
+            Values  (@Name , @Mobile , @Address , @OrderAmount , @DateCreated , 1, @DeliveryFee , @TotalAmount , @OrderNumber)
+
+SET @RecordID = SCOPE_IDENTITY();
+
+Insert CustomerOrderDetailsItem(CustomerOrderDetailsID , MenuID , OrderNumber , ItemName , Quantity , UnitPrice , TotalPrice)
+      Select @RecordID as CustomerOrderDetailsID , [MenuID] , @OrderNumber as OrderNumber , [ItemName] , [Quantity] , [UnitPrice] , [TotalPrice] from  @OrderDetails
+
+Set @Resp = @RecordID
+end;
+GO
